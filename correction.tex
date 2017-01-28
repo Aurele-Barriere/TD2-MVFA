@@ -1,12 +1,13 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
-\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{amsmath,amsfonts,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{mathtools}
+\usepackage{exercise}
 
 
-\title{TD2 MVFA: Linear-Time properties}
+\title{TD2 MVFA:\@Linear-Time properties}
 \date{}
 
 
@@ -19,21 +20,25 @@
 \def\seta{\{a\}}
 \def\setab{\{a,b\}}
 
+\newtheorem*{lemma}{Lemma}
+\newtheorem*{theorem}{Theorem}
+\DeclareMathOperator{\Pref}{Pref}
+\DeclareMathOperator{\Cl}{Cl}
 
 \begin{document}
 \maketitle
 
-\exercise{1}
-
+\begin{Answer}[number=1]
 Let $\ts$ be the transition system.
-$$\traces(\ts)\quad=\quad\seta(\seta\setab)^\omega \quad+\quad \seta\emptyset(\setab\seta)^\omega$$
+We have:
+$$\traces(\ts)=\seta{(\seta\setab)}^\omega\ +\ \seta\emptyset{(\setab\seta)}^\omega$$
+\end{Answer}
 
-\exercise{2}
+\begin{Answer}[number=2]
+\Question%
+Let $\ts=(S,\mathit{Act},\rightarrow,S_0,\mathit{AP},L)$ be a transition system.
 
-\question{1}
-Let $\ts=(S,\mathit{Act},\rightarrow,S_0,\mathit{AP},L)$ a transition system.
-
-We define $\tss$, another transition system without terminal states. Informally, it corresponds to $\ts$ without terminal states : each terminal state has been redirected to a new state which loops on itself.
+We define another transition system without terminal states, $\tss$. Informally, it corresponds to $\ts$ without terminal states: each terminal state has been redirected to a new state which loops on itself.
 
 $$\tss=(S\uplus\{\Omega\},\mathit{Act}\uplus\{\alpha\},\rightarrow^*,S_0,\mathit{AP},L)$$
 
@@ -43,8 +48,18 @@ We then define $\rightarrow^*$:
 $$\rightarrow^*\quad=\quad\rightarrow\quad\cup\quad\{v\xrightarrow{\alpha} \Omega~|~\nexists (s\in S, \beta\in\mathit{AP}), v\xrightarrow{\beta}s\}\quad\cup\quad\{\Omega\xrightarrow{\alpha}\Omega\}$$
 Which means that every connected states in $\mathcal{TS}$ still is in $\mathcal{TS^*}$, any state with no successor is connected to $\Omega$ and $\Omega$ is connected to itself.\\
 
-\question{2} \paragraph{Lemma:} $$\traces(\tss)\ =\ \{t\in\traces(\ts)~|~t\text{ is infinite}\}\ \cup\ \{t\ \emptyset^\omega~|~t\in\traces(\ts)\text{ and $t$ is finite}\}$$
-Which can be proved by double inclusion. % explain more?
+\Question%
+We introduce a lemma that will be helpful in order to prove the theorem.
+\begin{lemma}
+  \begin{align*}
+    \traces(\tss) &= \{t\in\traces(\ts)~|~t\text{ is infinite}\}\\
+    &\cup\{t\emptyset^\omega~|~t\in\traces(\ts)\text{ and $t$ is finite}\}
+  \end{align*}
+\end{lemma}
+\begin{proof}
+  By double inclusion. % explain more?
+\end{proof}
+
 
 \paragraph{Trace-equivalence preservation:} Let $\ts_1$ and $\ts_2$ be two transition systems such that $\traces(\ts_1)=\traces(\ts_2)$. Let $t_1\in\traces(\tss_1)$. Let us show that $t_1\in\traces(\tss_2)$.
 
@@ -55,18 +70,60 @@ If $t_1\in\{t\in\traces(\ts_1)~|~t\text{ is infinite}\}$, then $t_1\in\traces(\t
 If $t_1\in\{t\ \emptyset^\omega~|~t\in\traces(\ts_1)\text{ and $t$ is finite}\}$, then $t_1=t\ \emptyset^\omega$ where $t$ is a finite trace of $\ts_1$ and thus a finite trace of $\ts_2$ as well. Then by the previous lemma, $t\ \emptyset^\omega$ is also a trace of $\tss_2$.
 
 We thus have that every trace of $\tss_1$ is a trace of $\tss_2$, which means $\traces(\tss_1)\subseteq\traces(\tss_2)$. The other inclusion is symmetric. We thus have proved that, whenever $\traces(\ts_1)=\traces(\ts_2)$, $\traces(\tss_1)=\traces(\tss_2)$.\\
+\end{Answer}
 
 
+\begin{Answer}[number=3]
+  \Question%
+  \Question%
+  \Question%
+  \Question%
+  \Question%
+  \Question%
+  \Question%
+  \Question%
+\end{Answer}
 
-\exercise{3}
+\begin{Answer}[number=4]
+  Let $P$ and $P'$ be two LT properties. The following theorem is true:
+  \begin{theorem}
+    $\Pref(P) = \Pref(P')$ if and only if $\Cl(P) = \Cl(P')$
+  \end{theorem}
+  \begin{proof}
+    We prove the two implications.
+    \begin{description}
+      \item[$\Rightarrow$]
+        Suppose $\Pref(P) = \Pref(P')$. We have:
+        \begin{align*}
+          \Cl(P) &= \{\sigma\in{(2^{\textrm{AP}})}^\omega \mid \Pref(\sigma)\subseteq\Pref(P)\}\\
+          &= \{\sigma\in{(2^{\textrm{AP}})}^\omega \mid \Pref(\sigma)\subseteq\Pref(P')\} &&\text{ since }\Pref(P) = \Pref(P')\\
+          &= \Cl(P')&&\text{ (definition of closure)}
+        \end{align*}
+      \item[$\Leftarrow$]
+        Suppose $\Cl(P) = \Cl(P')$. We have two cases:
+        \begin{description}
+          \item[Case 1] One of $\Pref(P)$ or $\Pref(P')$ is empty.\\
+          Suppose for example that $\Pref(P) = \emptyset$ Then $\Cl(P) = \emptyset = \Cl(P')$.\\
+          Thus $\Pref(P') = \emptyset = \Pref(P)$.
+          \item[Case 2] $\Pref(P) \neq \emptyset$
+          Let $\sigma\in\Pref(P)$ be a prefix of $P$. \\
+          There exists an (infinite) trace $\hat{\sigma} \in P$ such that $\sigma\in\Pref(\hat{\sigma})$.
 
-\exercise{4}
+          Since $\hat{\sigma}\in P\subset\Cl(P)$, we have that $\hat{\sigma}\in\Cl(P')$. \\
+          Therefore $\sigma\in\Pref(P')$.\\
+          $\Pref(P)\subseteq\Pref(P')$. The other inclusion is true for the same reason.
 
-\exercise{5}
-\question{1}
-\question{2}
-\question{3}
-\question{4}
+        \end{description}
+    \end{description}
+  \end{proof}
+\end{Answer}
+
+\begin{Answer}[number=5]
+\Question%
+\Question%
+\Question%
+\Question%
+\end{Answer}
 
 
 \end{document}
