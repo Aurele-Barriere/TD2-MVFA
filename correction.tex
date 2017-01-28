@@ -3,7 +3,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{amsmath,amsfonts,amssymb}
 \usepackage{graphicx}
-
+\usepackage{mathtools}
 
 
 \title{TD2 MVFA: Linear-Time properties}
@@ -27,7 +27,30 @@ $$\mathit{Traces}(\mathcal{TS})\quad=\quad\seta(\seta\setab)^\omega \quad+\quad 
 
 \exercise{2}
 \question{1}
+Let $\mathcal{TS}=(S,\mathit{Act},\rightarrow,S_0,\mathit{AP},L)$ a transition system.
 
+We define $\mathcal{TS^*}$, another transition system without terminal states. Informally, it corresponds to $\mathcal{TS}$ without terminal states : each terminal state has been redirected to a new state which loops on itself.
+
+$$\mathcal{TS*}=(S\uplus\{\omega\},\mathit{Act}\uplus\{\alpha\},\rightarrow^*,S_0,\mathit{AP},L)$$
+
+In which $\omega$ is a new state, $\alpha$ a new action and $\STOP$ a new property.
+
+We then define $\rightarrow^*$:
+$$\rightarrow^*\quad=\quad\rightarrow\quad\cup\quad\{v\xrightarrow{\alpha} \omega~|~\nexists (s\in S, \beta\in\mathit{AP}), v\xrightarrow{\beta}s\}\quad\cup\quad\{\omega\xrightarrow{\alpha}\omega\}$$
+Which means that every connected states in $\mathcal{TS}$ still is in $\mathcal{TS^*}$, any state with no successor is connected to $\omega$ and $\omega$ is connected to itself.
+
+
+\question{2}
+
+\exercise{3}
+
+\exercise{4}
+
+\exercise{5}
+\question{1}
+\question{2}
+\question{3}
+\question{4}
 
 
 \end{document}
