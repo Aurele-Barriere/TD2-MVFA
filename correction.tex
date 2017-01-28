@@ -13,34 +13,50 @@
 \def\exercise#1{\Large\textbf{Exercise #1}\normalsize\\}
 \def\question#1{\textbf{Question #1:}\quad}
 
+\def\ts{\mathcal{TS}}
+\def\tss{\mathcal{TS^*}}
+\def\traces{\mathit{Traces}}
+\def\seta{\{a\}}
+\def\setab{\{a,b\}}
+
 
 \begin{document}
 \maketitle
 
 \exercise{1}
-\def\seta{\{a\}}
-\def\setab{\{a,b\}}
 
-
-Let $\mathcal{TS}$ be the transition system.
-$$\mathit{Traces}(\mathcal{TS})\quad=\quad\seta(\seta\setab)^\omega \quad+\quad \seta\emptyset(\setab\seta)^\omega$$
+Let $\ts$ be the transition system.
+$$\traces(\ts)\quad=\quad\seta(\seta\setab)^\omega \quad+\quad \seta\emptyset(\setab\seta)^\omega$$
 
 \exercise{2}
+
 \question{1}
-Let $\mathcal{TS}=(S,\mathit{Act},\rightarrow,S_0,\mathit{AP},L)$ a transition system.
+Let $\ts=(S,\mathit{Act},\rightarrow,S_0,\mathit{AP},L)$ a transition system.
 
-We define $\mathcal{TS^*}$, another transition system without terminal states. Informally, it corresponds to $\mathcal{TS}$ without terminal states : each terminal state has been redirected to a new state which loops on itself.
+We define $\tss$, another transition system without terminal states. Informally, it corresponds to $\ts$ without terminal states : each terminal state has been redirected to a new state which loops on itself.
 
-$$\mathcal{TS*}=(S\uplus\{\omega\},\mathit{Act}\uplus\{\alpha\},\rightarrow^*,S_0,\mathit{AP},L)$$
+$$\tss=(S\uplus\{\Omega\},\mathit{Act}\uplus\{\alpha\},\rightarrow^*,S_0,\mathit{AP},L)$$
 
-In which $\omega$ is a new state, $\alpha$ a new action and $\STOP$ a new property.
+In which $\Omega$ is a new state and $\alpha$ a new action.
 
 We then define $\rightarrow^*$:
-$$\rightarrow^*\quad=\quad\rightarrow\quad\cup\quad\{v\xrightarrow{\alpha} \omega~|~\nexists (s\in S, \beta\in\mathit{AP}), v\xrightarrow{\beta}s\}\quad\cup\quad\{\omega\xrightarrow{\alpha}\omega\}$$
-Which means that every connected states in $\mathcal{TS}$ still is in $\mathcal{TS^*}$, any state with no successor is connected to $\omega$ and $\omega$ is connected to itself.
+$$\rightarrow^*\quad=\quad\rightarrow\quad\cup\quad\{v\xrightarrow{\alpha} \Omega~|~\nexists (s\in S, \beta\in\mathit{AP}), v\xrightarrow{\beta}s\}\quad\cup\quad\{\Omega\xrightarrow{\alpha}\Omega\}$$
+Which means that every connected states in $\mathcal{TS}$ still is in $\mathcal{TS^*}$, any state with no successor is connected to $\Omega$ and $\Omega$ is connected to itself.\\
+
+\question{2} \paragraph{Lemma:} $$\traces(\tss)\ =\ \{t\in\traces(\ts)~|~t\text{ is infinite}\}\ \cup\ \{t\ \emptyset^\omega~|~t\in\traces(\ts)\text{ and $t$ is finite}\}$$
+Which can be proved by double inclusion. % explain more?
+
+\paragraph{Trace-equivalence preservation:} Let $\ts_1$ and $\ts_2$ be two transition systems such that $\traces(\ts_1)=\traces(\ts_2)$. Let $t_1\in\traces(\tss_1)$. Let us show that $t_1\in\traces(\tss_2)$.
+
+According to the previous lemma, $t_1$ can either be in $\{t\in\traces(\ts_1)~|~t\text{ is infinite}\}$ or in $\{t\ \emptyset^\omega~|~t\in\traces(\ts_1)\text{ and $t$ is finite}\}$.
+
+If $t_1\in\{t\in\traces(\ts_1)~|~t\text{ is infinite}\}$, then $t_1\in\traces(\ts_1)=\traces(ts_2)$. Thus, $t_1$ is an infinite trace of $\ts_2$ and then by the previous lemma, $t_1\in\traces(\tss_2)$.
+
+If $t_1\in\{t\ \emptyset^\omega~|~t\in\traces(\ts_1)\text{ and $t$ is finite}\}$, then $t_1=t\ \emptyset^\omega$ where $t$ is a finite trace of $\ts_1$ and thus a finite trace of $\ts_2$ as well. Then by the previous lemma, $t\ \emptyset^\omega$ is also a trace of $\tss_2$.
+
+We thus have that every trace of $\tss_1$ is a trace of $\tss_2$, which means $\traces(\tss_1)\subseteq\traces(\tss_2)$. The other inclusion is symmetric. We thus have proved that, whenever $\traces(\ts_1)=\traces(\ts_2)$, $\traces(\tss_1)=\traces(\tss_2)$.\\
 
 
-\question{2}
 
 \exercise{3}
 
