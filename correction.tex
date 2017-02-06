@@ -1,6 +1,7 @@
 \documentclass[11pt,a4paper]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
+\usepackage{tikz}
 \usepackage{amsmath,amsfonts,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{mathtools}
@@ -29,11 +30,40 @@
 \begin{document}
 \maketitle
 
+\section*{Exercise 1}
+
+Give the traces on the set of atomic propositions $\{a,b\}$ of the following transition system:
+
+\begin{center}
+\begin{tikzpicture}
+\node[draw] (s0) at (0,0) {$\emptyset$};
+\node[draw] (s1) at (2,-2) {$\{a,b\}$};
+\node[draw] (s2) at (2,2) {$\{a\}$};
+\node[draw] (s3) at (4,0) {$\{a\}$};
+\node (i) at (1,2) {};
+\draw[-latex] (s0) [bend right] to (s1);	
+\draw[-latex] (s1) [bend right] to (s3);
+\draw[-latex] (s3) [bend right] to (s1);
+\draw[-latex] (s2) [bend right] to (s0);
+\draw[-latex] (s2) [bend left] to (s3);
+\draw[-latex] (i) -- (s2);
+\end{tikzpicture}	
+\end{center}
+
 \begin{Answer}[number=1]
-Let $\ts$ be the transition system.
+Let $\ts$ be the transition system. There is only possibles executions in $\ts$, with distinct traces.
 We have:
 $$\traces(\ts)=\seta{(\seta\setab)}^\omega\ +\ \seta\emptyset{(\setab\seta)}^\omega$$
 \end{Answer}
+
+\section*{Exercise 2}
+
+You have seen a way to transform a transition system $TS$ with terminal states into an ``equivalent'' transition system $TS^*$ without terminal states.
+
+\begin{enumerate}
+	\item Give a formal definition of this transformation.
+	\item Prove that the transformation preserves trace-equivalence, \textit{i.e.} show that if $TS_1$ and $TS_2$ are such that $Traces(T_1) = Traces(T_2)$, then $Traces(T_1^*) = Traces(T_2^*)$.
+\end{enumerate}
 
 \begin{Answer}[number=2]
 \Question%
@@ -41,13 +71,17 @@ Let $\ts=(S,\mathit{Act},\rightarrow,S_0,\mathit{AP},L)$ be a transition system.
 
 We define another transition system without terminal states, $\tss$. Informally, it corresponds to $\ts$ without terminal states: each terminal state has been redirected to a new state which loops on itself.
 
-$$\tss=(S\uplus\{\Omega\},\mathit{Act}\uplus\{\alpha\},\rightarrow^*,S_0,\mathit{AP},L)$$
+$$\tss=(S\uplus\{\Omega\},\mathit{Act}\uplus\{\alpha\},\rightarrow^*,S_0,\mathit{AP},L^*)$$
 
 In which $\Omega$ is a new state and $\alpha$ a new action.
 
-We then define $\rightarrow^*$:
+We define $\rightarrow^*$:
 $$\rightarrow^*\quad=\quad\rightarrow\quad\cup\quad\{v\xrightarrow{\alpha} \Omega~|~\nexists (s\in S, \beta\in\mathit{AP}), v\xrightarrow{\beta}s\}\quad\cup\quad\{\Omega\xrightarrow{\alpha}\Omega\}$$
 Which means that every connected states in $\mathcal{TS}$ still is in $\mathcal{TS^*}$, any state with no successor is connected to $\Omega$ and $\Omega$ is connected to itself.\\
+
+Then, we define $L^* : S\uplus\{\Omega\} \longrightarrow \mathit{AP}$ such as $\forall s\in S,  L^*(s) = L(s)$ and $L^*(\Omega) = \emptyset$. \\
+\par Note that with this construction, we do not have the equivalence of trace-equivalence in $\ts$ and $\tss$, as this last adds new path ending with $\emptyset^\omega$. 
+It is not necessary in our context, as we only want the first implication. If this rafinement is nevertheless wanted, it can be obtained by defining a new proposition true only in state $\Omega$.
 
 \Question%
 We introduce a lemma that will be helpful in order to prove the theorem.
@@ -58,7 +92,25 @@ We introduce a lemma that will be helpful in order to prove the theorem.
   \end{align*}
 \end{lemma}
 \begin{proof}
-  By double inclusion. % explain more?
+  By double inclusion.\\
+  \begin{itemize}
+  \item \reflectbox{$\subseteq$} : % explain more? -> Proof proposal
+  \begin{itemize}
+  \item Let $t\in \traces(\ts)$ be the infinite trace of execution $e$. As $t$ is infinite, so is $e$ (there is a state in $e$ for each subset of $AP$ in $t$). 
+  Then $e$ never reach a terminal state, else it would not be infinite. So $e\in \traces(\tss)$ as $\tss$ is equal to $\ts$ out of the terminal states and $\Omega$.
+  \item Let $t\in \traces(\ts)$ be a finite trace corresponding to (finite) execution $e$. Then $e$ end in a terminal state. Then,$e$ is an execution fragment over $\tss$ 
+  (by construction of $\tss$ all execution fragments over $\ts$ fit $\tss$). Let $s$ be the final state ending $e$. There is no execution fragment in $\ts$ starting in $s$, 
+  hence in $\tss$, only $\emptyset^\omega$ starts in $s$, corresponding to the execution $s\Omega^\omega$. The concatenation of these two fragments is possible in $\tss$ and has for trace $t\emptyset^\omega$.
+  \end{itemize}
+  \item $\subseteq$ : Here it is easier to work directly with the underlying execution. 
+  Let $t\in \traces(\tss)$ be the trace of execution $e$. Let us discuss on the reach of $\Omega$.
+  \begin{itemize}
+  \item If $e$ reaches $\Omega$ at some point, then as $Post(\Omega) = \{\Omega\}$, $e=e'\Omega^\omega$ where $e'$ is a finite (and initial) execution fragment without $\Omega$ over $\tss$. 
+  So $e'$ is an initial finite execution fragment over $\ts$. Furthermore the last state $s$ of $e$ is such that $\Omega \in Post(s_{\tss})$, so by construction of $\tss$ $Post(s_{\tss})=\Omega$ and 
+  $Post(s_{\ts})=\emptyset$. Hence $e'$ is maximal, i.e. $e'$ is a finite execution of $\ts$ of trace $t'$. By construction of $e$ and $t$ (the initial trace over $\tss$), $t = t'\emptyset^\omega$.
+  \item If $e$ does not reach $\Omega$, then $e$ is an infinite execution over $\ts$ and $t\in  \{t\in\traces(\ts)~|~t\text{ is infinite}\}$.
+  \end{itemize}
+  \end{itemize}
 \end{proof}
 
 
@@ -66,13 +118,31 @@ We introduce a lemma that will be helpful in order to prove the theorem.
 
 According to the previous lemma, $t_1$ can either be in $\{t\in\traces(\ts_1)~|~t\text{ is infinite}\}$ or in $\{t\ \emptyset^\omega~|~t\in\traces(\ts_1)\text{ and $t$ is finite}\}$.
 
-If $t_1\in\{t\in\traces(\ts_1)~|~t\text{ is infinite}\}$, then $t_1\in\traces(\ts_1)=\traces(ts_2)$. Thus, $t_1$ is an infinite trace of $\ts_2$ and then by the previous lemma, $t_1\in\traces(\tss_2)$.
+If $t_1\in\{t\in\traces(\ts_1)~|~t\text{ is infinite}\}$, then $t_1\in\traces(\ts_1)=\traces(\ts_2)$. Thus, $t_1$ is an infinite trace of $\ts_2$ and then by the previous lemma, $t_1\in\traces(\tss_2)$.
 
 If $t_1\in\{t\ \emptyset^\omega~|~t\in\traces(\ts_1)\text{ and $t$ is finite}\}$, then $t_1=t\ \emptyset^\omega$ where $t$ is a finite trace of $\ts_1$ and thus a finite trace of $\ts_2$ as well. Then by the previous lemma, $t\ \emptyset^\omega$ is also a trace of $\tss_2$.
 
 We thus have that every trace of $\tss_1$ is a trace of $\tss_2$, which means $\traces(\tss_1)\subseteq\traces(\tss_2)$. The other inclusion is symmetric. We thus have proved that, whenever $\traces(\ts_1)=\traces(\ts_2)$, $\traces(\tss_1)=\traces(\tss_2)$.\\
 \end{Answer}
 
+\section*{Exercise 3}
+
+Consider the set $AP$ of atomic propositions defined by $AP = \{ x = 0,x > 0 \}$ and consider a non-terminating sequential computer program $P$ that manipulates the variable $x$.
+
+Formulate the following informally stated properties as LT properties:
+\begin{enumerate}
+\item false;
+\item initially $x$ is equal to zero;
+\item initially $x$ differs from zero;
+\item initially $x$ is equal to zero, but at some point $x$ exceeds zero;
+\item $x$ exceeds zero only finitely many times;
+\item $x$ exceeds zero infinitely often;
+\item the value of $x$ alternates between zero and not zero;
+\item true.
+\end{enumerate}
+
+Determine which of the provided LT properties are
+safety properties and which are liveness properties. 
 
 \begin{Answer}[number=3]
   \Question%
@@ -84,6 +154,9 @@ We thus have that every trace of $\tss_1$ is a trace of $\tss_2$, which means $\
   \Question%
   \Question%
 \end{Answer}
+
+\section*{Exercise 4}
+Let $P$ and $P'$ be two LT properties. Prove or disprove: $Pref(P) = Pref(P')$ if and only if $Cl(P) = Cl(P')$.
 
 \begin{Answer}[number=4]
   Let $P$ and $P'$ be two LT properties. The following theorem is true:
@@ -119,9 +192,28 @@ We thus have that every trace of $\tss_1$ is a trace of $\tss_2$, which means $\
   \end{proof}
 \end{Answer}
 
+\section*{Exercise 5}
+Let $P$ and $P'$ be liveness properties over $AP$. Prove or disprove the following claims:
+\begin{enumerate}
+\item $P \cup P'$ is a liveness property;
+\item $P \cap P'$ is a liveness property.
+\end{enumerate}
+Answer the same questions for $P$ and $P'$ being safety properties.
+
 \begin{Answer}[number=5]
 \Question%
+Let us proove that for $P$ and $P'$ two liveness properties, $P \cup P'$ is a liveness property. 
+\begin{align*}Pref(P \cup P') &= Pref(P) \cup Pref(P')\footnotemark[1]\\ 
+                              &= (2^{AP})^* \cup (2^{AP})^* \text{ [P and P' are liveness properties]}\\ 
+                              &= (2^{AP})^*
+\end{align*}
+So $P \cup P'$ is a liveness property.
+\footnotetext[1]{If this equality is not known, we can convince ourselves by considering that being a prefix of a language by definition being a prefix of a given word, 
+and the words of $A\cup B$ are exactly the words of $A$ plus the words of $B$.}
 \Question%
+Let us show a counterexample prooving that the intersetion of two liveness properties is not always a liveness property.
+Using the two liveness properties defined in exercice 3: $x$ exceeds zero only finitely many times; $x$ exceeds zero infinitely often.
+The intersection of these two properties is $false$ which is not a liveness property (cf. exercice 3 again).
 \Question%
 \Question%
 \end{Answer}
