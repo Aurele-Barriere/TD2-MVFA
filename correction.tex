@@ -127,6 +127,11 @@ We thus have that every trace of $\tss_1$ is a trace of $\tss_2$, which means $\
 
 \section*{Exercise 3}
 
+\def\badp#1{\mathit{BadPref}(#1)}
+\def\pref#1{\mathit{Pref}(#1)}
+\def\twoap{2^{AP}}
+\def\star{^*}
+
 Consider the set $AP$ of atomic propositions defined by $AP = \{ x = 0,x > 0 \}$ and consider a non-terminating sequential computer program $P$ that manipulates the variable $x$.
 
 Formulate the following informally stated properties as LT properties:
@@ -145,7 +150,7 @@ Determine which of the provided LT properties are
 safety properties and which are liveness properties. 
 
 \begin{Answer}[number=3]
-  \Question%
+  \Question Every prefix is a bad prefix for the propery \textit{false}, because the property is always false. Thus, $\badp{false} = (\twoap)\star$ and $\pref{false} = \emptyset$. As $\pref{false}\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into an accepted word : any prefix of the infite word is such a prefix.
   \Question%
   \Question%
   \Question%
@@ -166,14 +171,14 @@ Let $P$ and $P'$ be two LT properties. Prove or disprove: $Pref(P) = Pref(P')$ i
   \begin{proof}
     We prove the two implications.
     \begin{description}
-      \item[$\Rightarrow$]
+      \item[($\Rightarrow$)]
         Suppose $\Pref(P) = \Pref(P')$. We have:
         \begin{align*}
           \Cl(P) &= \{\sigma\in{(2^{\textrm{AP}})}^\omega \mid \Pref(\sigma)\subseteq\Pref(P)\}\\
           &= \{\sigma\in{(2^{\textrm{AP}})}^\omega \mid \Pref(\sigma)\subseteq\Pref(P')\} &&\text{ since }\Pref(P) = \Pref(P')\\
           &= \Cl(P')&&\text{ (definition of closure)}
         \end{align*}
-      \item[$\Leftarrow$]
+      \item[($\Leftarrow$)]
         Suppose $\Cl(P) = \Cl(P')$. We have two cases:
         \begin{description}
           \item[Case 1] One of $\Pref(P)$ or $\Pref(P')$ is empty.\\
