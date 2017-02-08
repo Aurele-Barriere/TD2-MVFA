@@ -168,8 +168,10 @@ The property is a liveness property, because the set of good prefixes $\pref(P_5
 $P_6$ is a liveness property. Indeed, let $\sigma$ be a finite word. One can extend $\sigma$ such that the result exceeds zero infinitely often. For instance, consider the infinite word $\sigma(\{x>0\})^\omega$.
 However, $P_6$ isn't a safety property : $\{x=0\}^\omega\in\cl(P_6)-P_6$ and thus $\cl(P_6)\neq P_8$.
   \Question
-
-  \Question%
+$P_7$ is a safety property because we can caracterize it with its set of bad prefixes: $\badp(P_7)=(\twoap)\star\ (\{x=0\}\{x=0\} + \{x>0\}\{x>0\}) (\twoap)\star$. Indeed, every infinite word that does not satisfy the property contains either $\{x=0\}\{x=0\}$ or $\{x>0\}\{x>0\}$.
+However, $P_7$ is not a liveness property, $\{x=0\}\{x=0\}$ is a word that cannot be extended to an infinite word that satisfies $P_7$.
+  \Question
+$P_8$ is both a saftey and liveness property. We can describe its bad prefixes: $\badp(P_8)=\emptyset$. And since this set is empty, every finite prefix can be extended to a infinite word of $P_8$, since every infinite word is a word of $P_8$.
 \end{Answer}
 
 \section*{Exercise 4}
