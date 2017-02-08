@@ -97,7 +97,7 @@ in which:
 \end{itemize}
 
 Note that with this construction, we do not have the equivalence of trace-equivalence in $\ts$ and $\tss$, as this last adds new path ending with $\emptyset^\omega$.
-It is not necessary in our context, as we only want the first implication. If this rafinement is nevertheless wanted, it can be obtained by defining a new proposition true only in state $\Omega$. % I don't understand. Does this mean that the reverse transformation does not preserve trace-equivalence?
+It is not necessary in our context, as we only want the first implication. If this refinement is nevertheless wanted, it can be obtained by defining a new proposition true only in state $\Omega$. % I don't understand. Does this mean that the reverse transformation does not preserve trace-equivalence?
 % If this is the case, there is two problems: 1/ it is not clear that we can define such a reverse transformation
 % 2/ even if this is the case, it is not obvious that it would not preserve trace-equivalence. need an example.
 
@@ -172,7 +172,7 @@ safety properties and which are liveness properties.
 
 We name the properties $P_1, P_2\dots P_8$.
   \Question%
-Every prefix is a bad prefix for the propery \textit{false}, because the property is always false. Thus, $\badp(P_1) = (\twoap)\star$ and $\pref{P_1} = \emptyset$. As $\pref(P_1)\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into a word that satisfies the property: any prefix of the infite word is such a prefix. %this sentence is too long. Maybe we could recall the definition of safety property at the beginning of the exercise.
+Every prefix is a bad prefix for the property \textit{false}, because the property is always false. Thus, $\badp(P_1) = (\twoap)\star$ and $\pref{P_1} = \emptyset$. As $\pref(P_1)\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into a word that satisfies the property: any prefix of the infinite word is such a prefix. %this sentence is too long. Maybe we could recall the definition of safety property at the beginning of the exercise.
 % Moreover, it is for each infinite word that doesn't satisfy the property. here is it the same, but mb it could be made clearer.
   \Question%
 For such a property, one can define a set of bad prefixes: $\badp(P_2) = \{x > 0\}(\twoap)\star$. Any infinite word that make the property false has such a bad prefix. Thus, the property is a safety property. However, since $\badp(P_2)\neq\emptyset$, there exists some finite words that cannot be extended into an infinite word that satisfies the property. Thus, the property is not a liveness property.
@@ -187,10 +187,10 @@ The property is a liveness property, because the set of good prefixes $\pref(P_5
 $P_6$ is a liveness property. Indeed, let $\sigma$ be a finite word. One can extend $\sigma$ such that the result exceeds zero infinitely often. For instance, consider the infinite word ${\sigma(\{x>0\})}^\omega$.
 However, $P_6$ isn't a safety property: ${\{x=0\}}^\omega\in\cl(P_6)-P_6$ and thus $\cl(P_6)\neq P_8$.
   \Question%
-$P_7$ is a safety property because we can caracterize it with its set of bad prefixes: $\badp(P_7)=(\twoap)\star\ (\{x=0\}\{x=0\} + \{x>0\}\{x>0\}) (\twoap)\star$. Indeed, every infinite word that does not satisfy the property contains either $\{x=0\}\{x=0\}$ or $\{x>0\}\{x>0\}$.
+$P_7$ is a safety property because we can characterize it with its set of bad prefixes: $\badp(P_7)=(\twoap)\star\ (\{x=0\}\{x=0\} + \{x>0\}\{x>0\}) (\twoap)\star$. Indeed, every infinite word that does not satisfy the property contains either $\{x=0\}\{x=0\}$ or $\{x>0\}\{x>0\}$.
 However, $P_7$ is not a liveness property, $\{x=0\}\{x=0\}$ is a word that cannot be extended to an infinite word that satisfies $P_7$.
   \Question%
-$P_8$ is both a saftey and liveness property. We can describe its bad prefixes: $\badp(P_8)=\emptyset$. And since this set is empty, every finite prefix can be extended to a infinite word of $P_8$, since every infinite word is a word of $P_8$.
+$P_8$ is both a safety and liveness property. We can describe its bad prefixes: $\badp(P_8)=\emptyset$. And since this set is empty, every finite prefix can be extended to a infinite word of $P_8$, since every infinite word is a word of $P_8$.
 \end{Answer}
 
 \begin{Exercise}
@@ -253,9 +253,9 @@ So $P \cup P'$ is a liveness property.
 \footnotetext[1]{If this equality is not known, we can convince ourselves by considering that being a prefix of a language by definition being a prefix of a given word,
 and the words of $A\cup B$ are exactly the words of $A$ plus the words of $B$.}
 \Question%
-Let us show a counterexample proving that the intersetion of two liveness properties is not always a liveness property.
-Using the two liveness properties defined in exercice 3: $x$ exceeds zero only finitely many times; $x$ exceeds zero infinitely often.
-The intersection of these two properties is $false$ which is not a liveness property (cf.\ exercice 3 again).
+Let us show a counterexample proving that the intersection of two liveness properties is not always a liveness property.
+Using the two liveness properties defined in exercise 3: $x$ exceeds zero only finitely many times; $x$ exceeds zero infinitely often.
+The intersection of these two properties is $false$ which is not a liveness property (cf.\ exercise 3 again).
 \Question%
 Given $P$ and $P'$ two safety properties, we prove that $P\cup P'$ is a safety property, by reasoning on the bad prefixes. We show by double inclusion that $ not( P\cup P') = BadPref( P\cup P')$
 \begin{itemize}
@@ -266,11 +266,12 @@ For the simplicity of the notations, we will assume $\alpha \notin P$ is verifie
 \Question%
 Given $P$ and $P'$ two safety properties, we prove that $P\cap P'$ is a safety property, by showing the equality of this language with its cloture.
 As for any property $p$, $p \subseteq \Cl(p)$, we will prove the other inclusion. Lets consider $\alpha \in \Cl(P\cap P')$. By definition, $Pref(\alpha) \subseteq Pref(P\cap P') \subseteq Pref(P) \cap Pref(P')$\footnotemark[2].
-Specificly, $Pref(\alpha) \subseteq Pref(P)$, hence $\alpha \in \Cl(P) = P$. The same proof leads to $\alpha \in P'$. Hence $\alpha \in P\cap P'$.
+Specifically, $Pref(\alpha) \subseteq Pref(P)$, hence $\alpha \in \Cl(P) = P$. The same proof leads to $\alpha \in P'$. Hence $\alpha \in P\cap P'$.
 
 
-\footnotetext[2]{As previously, if this is not known, convince yourself with this argument: being a prefix of $A\cap B$ is being the prefix of a word of $A \cap B$ wich is a word of both $A$ and $B$.}
+\footnotetext[2]{As previously, if this is not known, convince yourself with this argument: being a prefix of $A\cap B$ is being the prefix of a word of $A \cap B$ which is a word of both $A$ and $B$.}
 \end{Answer}
 
 
 \end{document}
+
