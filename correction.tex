@@ -171,6 +171,13 @@ safety properties and which are liveness properties.
 % Why does \badp have parenthesis and not \pref?
 
 We name the properties $P_1, P_2\dots P_8$.
+Recall the definition of safety property and liveness property:
+\begin{itemize}
+	\item $E$ is called a \emph{safety property} if for all words
+		$$\sigma = A_0A_1A_2\dots\in{(\twoap)}^\omega\setminus E$$
+		there exists a finite prefix $A_0A_1\dots A_n$ of $\sigma$ such that none of the words $$A_0A_1\dots A_nB_{n+1}B_{n+2}\dots$$ belongs to E. %chktex 25
+	\item $E$ is called a \emph{liveness property} if each finite word can be extended to an infinite word in $E$, ie.\ $\pref(E) = {(\twoap)}^+$.
+\end{itemize}
   \Question%
 Every prefix is a bad prefix for the property \textit{false}, because the property is always false. Thus, $\badp(P_1) = (\twoap)\star$ and $\pref{P_1} = \emptyset$. As $\pref(P_1)\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into a word that satisfies the property: any prefix of the infinite word is such a prefix. %this sentence is too long. Maybe we could recall the definition of safety property at the beginning of the exercise.
 % Moreover, it is for each infinite word that doesn't satisfy the property. here is it the same, but mb it could be made clearer.
@@ -274,4 +281,3 @@ Specifically, $Pref(\alpha) \subseteq Pref(P)$, hence $\alpha \in \Cl(P) = P$. T
 
 
 \end{document}
-
