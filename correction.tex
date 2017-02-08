@@ -5,12 +5,15 @@
 \usepackage{amsmath,amsfonts,amssymb,amsthm}
 \usepackage{graphicx}
 \usepackage{mathtools}
-\usepackage{exercise}
+\usepackage[lastexercise]{exercise}
 \usepackage{fullpage}
 
 
-\title{TD2 MVFA:\@Linear-Time properties}
+\title{TD2 MVFA: Linear-Time properties} %chktex 13
 \date{}
+
+\renewcommand{\ExerciseHeader}{\textbf{\Large\ExerciseName\ \ExerciseHeaderNB\ExerciseHeaderTitle\ExerciseHeaderOrigin\medskip}}
+\renewcommand{\AnswerHeader}{\bigskip\textbf{Answer of exercise \ExerciseHeaderNB}\medskip}
 
 
 \def\exercise#1{\Large\textbf{Exercise #1}\normalsize\\}
@@ -22,6 +25,12 @@
 \def\seta{\{a\}}
 \def\setab{\{a,b\}}
 
+\newcommand\badp{\mathit{BadPref}}
+\newcommand\pref{\mathit{Pref}}
+\newcommand\twoap{2^{AP}}
+\renewcommand\star{^*}
+\newcommand\cl{\mathit{Cl}}
+
 \newtheorem*{lemma}{Lemma}
 \newtheorem*{theorem}{Theorem}
 \DeclareMathOperator{\Pref}{Pref}
@@ -30,7 +39,7 @@
 \begin{document}
 \maketitle
 
-\section*{Exercise 1}
+\begin{Exercise}
 
 Give the traces on the set of atomic propositions $\{a,b\}$ of the following transition system:
 
@@ -41,22 +50,24 @@ Give the traces on the set of atomic propositions $\{a,b\}$ of the following tra
 \node[draw] (s2) at (2,2) {$\{a\}$};
 \node[draw] (s3) at (4,0) {$\{a\}$};
 \node (i) at (1,2) {};
-\draw[-latex] (s0) [bend right] to (s1);	
+\draw[-latex] (s0) [bend right] to (s1);
 \draw[-latex] (s1) [bend right] to (s3);
 \draw[-latex] (s3) [bend right] to (s1);
 \draw[-latex] (s2) [bend right] to (s0);
 \draw[-latex] (s2) [bend left] to (s3);
 \draw[-latex] (i) -- (s2);
-\end{tikzpicture}	
+\end{tikzpicture}
 \end{center}
+\end{Exercise}
 
-\begin{Answer}[number=1]
-Let $\ts$ be the transition system. There is only possibles executions in $\ts$, with distinct traces.
+\begin{Answer}
+
+Let $\ts$ be the transition system. There is only possibles executions in $\ts$, with distinct traces.% I don't understand this sentence
 We have:
 $$\traces(\ts)=\seta{(\seta\setab)}^\omega\ +\ \seta\emptyset{(\setab\seta)}^\omega$$
 \end{Answer}
 
-\section*{Exercise 2}
+\begin{Exercise}
 
 You have seen a way to transform a transition system $TS$ with terminal states into an ``equivalent'' transition system $TS^*$ without terminal states.
 
@@ -64,57 +75,66 @@ You have seen a way to transform a transition system $TS$ with terminal states i
 	\item Give a formal definition of this transformation.
 	\item Prove that the transformation preserves trace-equivalence, \textit{i.e.} show that if $TS_1$ and $TS_2$ are such that $Traces(T_1) = Traces(T_2)$, then $Traces(T_1^*) = Traces(T_2^*)$.
 \end{enumerate}
+\end{Exercise}
 
-\begin{Answer}[number=2]
+\begin{Answer}
 \Question%
 Let $\ts=(S,\mathit{Act},\rightarrow,S_0,\mathit{AP},L)$ be a transition system.
 
 We define another transition system without terminal states, $\tss$. Informally, it corresponds to $\ts$ without terminal states: each terminal state has been redirected to a new state which loops on itself.
 
+We define $\ts^*$ by:
+
 $$\tss=(S\uplus\{\Omega\},\mathit{Act}\uplus\{\alpha\},\rightarrow^*,S_0,\mathit{AP},L^*)$$
 
-In which $\Omega$ is a new state and $\alpha$ a new action.
+in which:
+\begin{itemize}
+	\item $\Omega$ is a new state and $\alpha$ a new action;
+	\item $\rightarrow^*$ is defined by:
+		$$\rightarrow^*\quad=\quad\rightarrow\quad\cup\quad\{v\xrightarrow{\alpha} \Omega~|~\nexists (s\in S, \beta\in\mathit{AP}), v\xrightarrow{\beta}s\}\quad\cup\quad\{\Omega\xrightarrow{\alpha}\Omega\}$$% there does not exist --> for all? Moreover, there's a problem with the spacing in this formula, I'll see if I can fix it later
+		This means that every pair of connected states in $\mathcal{TS}$ is still a pair of connected states in $\mathcal{TS^*}$, any state with no successor is connected to $\Omega$ and $\Omega$ is connected to itself.
+	\item $L^* : S\uplus\{\Omega\} \to \mathit{AP}$ is such that $\forall s\in S,  L^*(s) = L(s)$ and $L^*(\Omega) = \emptyset$.
+\end{itemize}
 
-We define $\rightarrow^*$:
-$$\rightarrow^*\quad=\quad\rightarrow\quad\cup\quad\{v\xrightarrow{\alpha} \Omega~|~\nexists (s\in S, \beta\in\mathit{AP}), v\xrightarrow{\beta}s\}\quad\cup\quad\{\Omega\xrightarrow{\alpha}\Omega\}$$
-Which means that every connected states in $\mathcal{TS}$ still is in $\mathcal{TS^*}$, any state with no successor is connected to $\Omega$ and $\Omega$ is connected to itself.\\
-
-Then, we define $L^* : S\uplus\{\Omega\} \longrightarrow \mathit{AP}$ such as $\forall s\in S,  L^*(s) = L(s)$ and $L^*(\Omega) = \emptyset$. \\
-\par Note that with this construction, we do not have the equivalence of trace-equivalence in $\ts$ and $\tss$, as this last adds new path ending with $\emptyset^\omega$. 
-It is not necessary in our context, as we only want the first implication. If this rafinement is nevertheless wanted, it can be obtained by defining a new proposition true only in state $\Omega$.
+Note that with this construction, we do not have the equivalence of trace-equivalence in $\ts$ and $\tss$, as this last adds new path ending with $\emptyset^\omega$.
+It is not necessary in our context, as we only want the first implication. If this rafinement is nevertheless wanted, it can be obtained by defining a new proposition true only in state $\Omega$. % I don't understand. Does this mean that the reverse transformation does not preserve trace-equivalence?
+% If this is the case, there is two problems: 1/ it is not clear that we can define such a reverse transformation
+% 2/ even if this is the case, it is not obvious that it would not preserve trace-equivalence. need an example.
 
 \Question%
 We introduce a lemma that will be helpful in order to prove the theorem.
 \begin{lemma}
   \begin{align*}
-    \traces(\tss) &= \{t\in\traces(\ts)~|~t\text{ is infinite}\}\\
-    &\cup\{t\emptyset^\omega~|~t\in\traces(\ts)\text{ and $t$ is finite}\}
+    \traces(\tss) &= \{t\in\traces(\ts) \mid t\text{ is infinite}\}\\
+    &\cup\{t\emptyset^\omega \mid t\in\traces(\ts)\text{ and $t$ is finite}\}
   \end{align*}
 \end{lemma}
 \begin{proof}
   By double inclusion.\\
   \begin{itemize}
-  \item \reflectbox{$\subseteq$} : % explain more? -> Proof proposal
-  \begin{itemize}
-  \item Let $t\in \traces(\ts)$ be the infinite trace of execution $e$. As $t$ is infinite, so is $e$ (there is a state in $e$ for each subset of $AP$ in $t$). 
-  Then $e$ never reach a terminal state, else it would not be infinite. So $e\in \traces(\tss)$ as $\tss$ is equal to $\ts$ out of the terminal states and $\Omega$.
-  \item Let $t\in \traces(\ts)$ be a finite trace corresponding to (finite) execution $e$. Then $e$ end in a terminal state. Then,$e$ is an execution fragment over $\tss$ 
-  (by construction of $\tss$ all execution fragments over $\ts$ fit $\tss$). Let $s$ be the final state ending $e$. There is no execution fragment in $\ts$ starting in $s$, 
-  hence in $\tss$, only $\emptyset^\omega$ starts in $s$, corresponding to the execution $s\Omega^\omega$. The concatenation of these two fragments is possible in $\tss$ and has for trace $t\emptyset^\omega$.
-  \end{itemize}
-  \item $\subseteq$ : Here it is easier to work directly with the underlying execution. 
-  Let $t\in \traces(\tss)$ be the trace of execution $e$. Let us discuss on the reach of $\Omega$.
-  \begin{itemize}
-  \item If $e$ reaches $\Omega$ at some point, then as $Post(\Omega) = \{\Omega\}$, $e=e'\Omega^\omega$ where $e'$ is a finite (and initial) execution fragment without $\Omega$ over $\tss$. 
-  So $e'$ is an initial finite execution fragment over $\ts$. Furthermore the last state $s$ of $e$ is such that $\Omega \in Post(s_{\tss})$, so by construction of $\tss$ $Post(s_{\tss})=\Omega$ and 
-  $Post(s_{\ts})=\emptyset$. Hence $e'$ is maximal, i.e. $e'$ is a finite execution of $\ts$ of trace $t'$. By construction of $e$ and $t$ (the initial trace over $\tss$), $t = t'\emptyset^\omega$.
-  \item If $e$ does not reach $\Omega$, then $e$ is an infinite execution over $\ts$ and $t\in  \{t\in\traces(\ts)~|~t\text{ is infinite}\}$.
-  \end{itemize}
+	  \item \reflectbox{$\subseteq$}: % explain more? -> Proof proposal
+	  \begin{itemize}
+		  \item Let $t\in \traces(\ts)$ be the infinite trace of execution $e$. As $t$ is infinite, so is $e$ (there is a state in $e$ for each subset of $AP$ in $t$).
+		  Then $e$ never reach a terminal state, else it would not be infinite. So $e\in \traces(\tss)$ as $\tss$ is equal to $\ts$ out of the terminal states and $\Omega$.
+		  \item Let $t\in \traces(\ts)$ be a finite trace corresponding to (finite) execution $e$. Then $e$ end in a terminal state. Then, $e$ is an execution fragment over $\tss$
+		  (by construction of $\tss$ all execution fragments over $\ts$ fit $\tss$). Let $s$ be the final state ending $e$. There is no execution fragment in $\ts$ starting in $s$,
+		  hence in $\tss$, only $\emptyset^\omega$ starts in $s$, corresponding to the execution $s\Omega^\omega$. The concatenation of these two fragments is possible in $\tss$ and has for trace $t\emptyset^\omega$.
+	  \end{itemize}
+	  \item $\subseteq$: Here it is easier to work directly with the underlying execution.
+	  Let $t\in \traces(\tss)$ be the trace of execution $e$. Let us discuss on whether the execution reaches $\Omega$ or not.
+	  \begin{itemize}
+		  \item If $e$ reaches $\Omega$ at some point, then as $Post(\Omega) = \{\Omega\}$, $e=e'\Omega^\omega$ where $e'$ is a finite (and initial) execution fragment without $\Omega$ over $\tss$.
+		  So $e'$ is an initial finite execution fragment over $\ts$. Furthermore the last state $s$ of $e$ is such that $\Omega \in Post(s_{\tss})$, so by construction of $\tss$ $Post(s_{\tss})=\Omega$ and
+		  $Post(s_{\ts})=\emptyset$. Hence $e'$ is maximal, i.e. $e'$ is a finite execution of $\ts$ of trace $t'$. By construction of $e$ and $t$ (the initial trace over $\tss$), $t = t'\emptyset^\omega$.
+		  \item If $e$ does not reach $\Omega$, then $e$ is an infinite execution over $\ts$ and $t\in  \{t\in\traces(\ts)~|~t\text{ is infinite}\}$.
+	  \end{itemize}
   \end{itemize}
 \end{proof}
 
 
-\paragraph{Trace-equivalence preservation:} Let $\ts_1$ and $\ts_2$ be two transition systems such that $\traces(\ts_1)=\traces(\ts_2)$. Let $t_1\in\traces(\tss_1)$. Let us show that $t_1\in\traces(\tss_2)$.
+\begin{proof}[Trace-equivalence preservation] We can now prove the theorem, by double inclusion.
+
+Let $\ts_1$ and $\ts_2$ be two transition systems such that $\traces(\ts_1)=\traces(\ts_2)$. Let $t_1\in\traces(\tss_1)$. Let us show that $t_1\in\traces(\tss_2)$.
 
 According to the previous lemma, $t_1$ can either be in $\{t\in\traces(\ts_1)~|~t\text{ is infinite}\}$ or in $\{t\ \emptyset^\omega~|~t\in\traces(\ts_1)\text{ and $t$ is finite}\}$.
 
@@ -122,17 +142,11 @@ If $t_1\in\{t\in\traces(\ts_1)~|~t\text{ is infinite}\}$, then $t_1\in\traces(\t
 
 If $t_1\in\{t\ \emptyset^\omega~|~t\in\traces(\ts_1)\text{ and $t$ is finite}\}$, then $t_1=t\ \emptyset^\omega$ where $t$ is a finite trace of $\ts_1$ and thus a finite trace of $\ts_2$ as well. Then by the previous lemma, $t\ \emptyset^\omega$ is also a trace of $\tss_2$.
 
-We thus have that every trace of $\tss_1$ is a trace of $\tss_2$, which means $\traces(\tss_1)\subseteq\traces(\tss_2)$. The other inclusion is symmetric. We thus have proved that, whenever $\traces(\ts_1)=\traces(\ts_2)$, $\traces(\tss_1)=\traces(\tss_2)$.\\
+We thus have that every trace of $\tss_1$ is a trace of $\tss_2$, which means $\traces(\tss_1)\subseteq\traces(\tss_2)$. The other inclusion is symmetric. We thus have proved that, whenever $\traces(\ts_1)=\traces(\ts_2)$, $\traces(\tss_1)=\traces(\tss_2)$.
+\end{proof}
 \end{Answer}
 
-\section*{Exercise 3}
-
-\def\badp{\mathit{BadPref}}
-\def\pref{\mathit{Pref}}
-\def\twoap{2^{AP}}
-\def\star{^*}
-\def\cl{\mathit{Cl}}
-
+\begin{Exercise}
 
 Consider the set $AP$ of atomic propositions defined by $AP = \{ x = 0,x > 0 \}$ and consider a non-terminating sequential computer program $P$ that manipulates the variable $x$.
 
@@ -149,35 +163,43 @@ Formulate the following informally stated properties as LT properties:
 \end{enumerate}
 
 Determine which of the provided LT properties are
-safety properties and which are liveness properties. 
+safety properties and which are liveness properties.
+\end{Exercise}
 
-\begin{Answer}[number=3]
+\begin{Answer}
+
+% Why does \badp have parenthesis and not \pref?
+
 We name the properties $P_1, P_2\dots P_8$.
-  \Question 
-Every prefix is a bad prefix for the propery \textit{false}, because the property is always false. Thus, $\badp(P_1) = (\twoap)\star$ and $\pref{P_1} = \emptyset$. As $\pref(P_1)\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into a word that satisfies the property: any prefix of the infite word is such a prefix.
-  \Question
+  \Question%
+Every prefix is a bad prefix for the propery \textit{false}, because the property is always false. Thus, $\badp(P_1) = (\twoap)\star$ and $\pref{P_1} = \emptyset$. As $\pref(P_1)\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into a word that satisfies the property: any prefix of the infite word is such a prefix. %this sentence is too long. Maybe we could recall the definition of safety property at the beginning of the exercise.
+% Moreover, it is for each infinite word that doesn't satisfy the property. here is it the same, but mb it could be made clearer.
+  \Question%
 For such a property, one can define a set of bad prefixes: $\badp(P_2) = \{x > 0\}(\twoap)\star$. Any infinite word that make the property false has such a bad prefix. Thus, the property is a safety property. However, since $\badp(P_2)\neq\emptyset$, there exists some finite words that cannot be extended into an infinite word that satisfies the property. Thus, the property is not a liveness property.
-  \Question
+  \Question%
 This property is also a safety property, with $\badp(P_3) = \{x=0\}(\twoap)\star$. It isn't a liveness property because the set of bad prefixes isn't empty.
-  \Question
+  \Question%
 This property isn't a liveness property: for instance, the finite prefix $\{x>0\}$ cannot be extended to an infinite word that satisfies the property.
-This property isn't a safety property either. Indeed, we have that the word $\{x=0\}^\omega\in\cl(P_4)$ but $\{x=0\}^\omega\not\in P_4$. And we know that a property $E$ is a liveness property iff $\cl(E)=E$.
-  \Question 
-The property is a liveness property, because the set of good prefixes $\pref(P_5)$ is equal to $(\twoap)\star$, because  every finite word can be extended into a infinite word in which zero is exceeded only finitely many times. This property isn't a safety property, because $\{x=0\}^\omega\in\cl(P_5)-P_5$ and thus $\cl(P_5)\neq P_5$.
-  \Question 
-$P_6$ is a liveness property. Indeed, let $\sigma$ be a finite word. One can extend $\sigma$ such that the result exceeds zero infinitely often. For instance, consider the infinite word $\sigma(\{x>0\})^\omega$.
-However, $P_6$ isn't a safety property : $\{x=0\}^\omega\in\cl(P_6)-P_6$ and thus $\cl(P_6)\neq P_8$.
-  \Question
+This property isn't a safety property either. Indeed, we have that the word ${\{x=0\}}^\omega\in\cl(P_4)$ but ${\{x=0\}}^\omega\not\in P_4$. And we know that a property $E$ is a liveness property iff $\cl(E)=E$.
+  \Question%
+The property is a liveness property, because the set of good prefixes $\pref(P_5)$ is equal to $(\twoap)\star$, because  every finite word can be extended into a infinite word in which zero is exceeded only finitely many times. This property isn't a safety property, because ${\{x=0\}}^\omega\in\cl(P_5)-P_5$ and thus $\cl(P_5)\neq P_5$.
+  \Question%
+$P_6$ is a liveness property. Indeed, let $\sigma$ be a finite word. One can extend $\sigma$ such that the result exceeds zero infinitely often. For instance, consider the infinite word ${\sigma(\{x>0\})}^\omega$.
+However, $P_6$ isn't a safety property: ${\{x=0\}}^\omega\in\cl(P_6)-P_6$ and thus $\cl(P_6)\neq P_8$.
+  \Question%
 $P_7$ is a safety property because we can caracterize it with its set of bad prefixes: $\badp(P_7)=(\twoap)\star\ (\{x=0\}\{x=0\} + \{x>0\}\{x>0\}) (\twoap)\star$. Indeed, every infinite word that does not satisfy the property contains either $\{x=0\}\{x=0\}$ or $\{x>0\}\{x>0\}$.
 However, $P_7$ is not a liveness property, $\{x=0\}\{x=0\}$ is a word that cannot be extended to an infinite word that satisfies $P_7$.
-  \Question
+  \Question%
 $P_8$ is both a saftey and liveness property. We can describe its bad prefixes: $\badp(P_8)=\emptyset$. And since this set is empty, every finite prefix can be extended to a infinite word of $P_8$, since every infinite word is a word of $P_8$.
 \end{Answer}
 
-\section*{Exercise 4}
-Let $P$ and $P'$ be two LT properties. Prove or disprove: $Pref(P) = Pref(P')$ if and only if $Cl(P) = Cl(P')$.
+\begin{Exercise}
 
-\begin{Answer}[number=4]
+Let $P$ and $P'$ be two LT properties. Prove or disprove: $Pref(P) = Pref(P')$ if and only if $Cl(P) = Cl(P')$.
+\end{Exercise}
+
+\begin{Answer}
+
   Let $P$ and $P'$ be two LT properties. The following theorem is true:
   \begin{theorem}
     $\Pref(P) = \Pref(P')$ if and only if $\Cl(P) = \Cl(P')$
@@ -211,32 +233,33 @@ Let $P$ and $P'$ be two LT properties. Prove or disprove: $Pref(P) = Pref(P')$ i
   \end{proof}
 \end{Answer}
 
-\section*{Exercise 5}
+\begin{Exercise}
 Let $P$ and $P'$ be liveness properties over $AP$. Prove or disprove the following claims:
 \begin{enumerate}
 \item $P \cup P'$ is a liveness property;
 \item $P \cap P'$ is a liveness property.
 \end{enumerate}
 Answer the same questions for $P$ and $P'$ being safety properties.
+\end{Exercise}
 
-\begin{Answer}[number=5]
+\begin{Answer}
 \Question%
-Let us prove that for $P$ and $P'$ two liveness properties, $P \cup P'$ is a liveness property. 
-\begin{align*}Pref(P \cup P') &= Pref(P) \cup Pref(P')\footnotemark[1]\\ 
-                              &= (2^{AP})^* \cup (2^{AP})^* \text{ [P and P' are liveness properties]}\\ 
-                              &= (2^{AP})^*
+Let us prove that for $P$ and $P'$ two liveness properties, $P \cup P'$ is a liveness property.
+\begin{align*}Pref(P \cup P') &= Pref(P) \cup Pref(P')\footnotemark[1]\\
+                              &= {(2^{AP})}^* \cup {(2^{AP})}^* \text{ [P and P' are liveness properties]}\\
+                              &= {(2^{AP})}^*
 \end{align*}
 So $P \cup P'$ is a liveness property.
-\footnotetext[1]{If this equality is not known, we can convince ourselves by considering that being a prefix of a language by definition being a prefix of a given word, 
+\footnotetext[1]{If this equality is not known, we can convince ourselves by considering that being a prefix of a language by definition being a prefix of a given word,
 and the words of $A\cup B$ are exactly the words of $A$ plus the words of $B$.}
 \Question%
 Let us show a counterexample proving that the intersetion of two liveness properties is not always a liveness property.
 Using the two liveness properties defined in exercice 3: $x$ exceeds zero only finitely many times; $x$ exceeds zero infinitely often.
-The intersection of these two properties is $false$ which is not a liveness property (cf. exercice 3 again).
+The intersection of these two properties is $false$ which is not a liveness property (cf.\ exercice 3 again).
 \Question%
 Given $P$ and $P'$ two safety properties, we prove that $P\cup P'$ is a safety property, by reasoning on the bad prefixes. We show by double inclusion that $ not( P\cup P') = BadPref( P\cup P')$
-\begin{itemize} 
-\item $\alpha \notin P\cup P'$ implies $\alpha \notin P$ or $\alpha \notin P'$. 
+\begin{itemize}
+\item $\alpha \notin P\cup P'$ implies $\alpha \notin P$ or $\alpha \notin P'$.
 For the simplicity of the notations, we will assume $\alpha \notin P$ is verified. Then $\alpha \in BadPref(P)$, i.e. $Pref(\alpha) \subseteq Pref(P) subseteq Pref(P \cup P')$ and $\alpha \in BadPref(P \cup P')$.
 \item $alpha \in BadPref(P\cup P')$ means $Pref(\alpha) \subseteq Pref(P \cup P')$ which implies $alpha \in BadPref(P)$ (or the same thing for $P'$, an the proof is symmetric). Then, by def $\alpha \in P \subseteq (P \cup P')$.
 \end{itemize}
