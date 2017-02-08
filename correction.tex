@@ -152,16 +152,18 @@ Determine which of the provided LT properties are
 safety properties and which are liveness properties. 
 
 \begin{Answer}[number=3]
+We name the properties $P_1, P_2\dots P_8$.
   \Question 
-Every prefix is a bad prefix for the propery \textit{false}, because the property is always false. Thus, $\badp(false) = (\twoap)\star$ and $\pref{false} = \emptyset$. As $\pref(false)\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into a word that satisfies the property: any prefix of the infite word is such a prefix.
+Every prefix is a bad prefix for the propery \textit{false}, because the property is always false. Thus, $\badp(P_1) = (\twoap)\star$ and $\pref{P_1} = \emptyset$. As $\pref(P_1)\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into a word that satisfies the property: any prefix of the infite word is such a prefix.
   \Question
-For such a property, one can define a set of bad prefixes: $\badp = \{x > 0\}(\twoap)\star$. Any infinite word that make the property false has such a bad prefix. Thus, the property is a safety property. However, since $\badp\neq\emptyset$, there exists some finite words that cannot be extended into an infinite word that satisfies the property. Thus, the property is not a liveness property.
+For such a property, one can define a set of bad prefixes: $\badp(P_2) = \{x > 0\}(\twoap)\star$. Any infinite word that make the property false has such a bad prefix. Thus, the property is a safety property. However, since $\badp(P_2)\neq\emptyset$, there exists some finite words that cannot be extended into an infinite word that satisfies the property. Thus, the property is not a liveness property.
   \Question
-This property is also a safety property, with $\badp = \{x=0\}(\twoap)\star$. It isn't a liveness property because the set of bad prefixes isn't empty.
+This property is also a safety property, with $\badp(P_3) = \{x=0\}(\twoap)\star$. It isn't a liveness property because the set of bad prefixes isn't empty.
   \Question
 This property isn't a liveness property: for instance, the finite prefix $\{x>0\}$ cannot be extended to an infinite word that satisfies the property.
-This property isn't a safety property either. Indeed, if we name the property $P$, we have that the word $\{x>0\}^\omega\in\cl(P)$ but $\{x>0\}^\omega\not\in P$. And we know that a property $E$ is a liveness property iff $\cl(E)=E$.
-  \Question%
+This property isn't a safety property either. Indeed, we have that the word $\{x=0\}^\omega\in\cl(P_4)$ but $\{x=0\}^\omega\not\in P_4$. And we know that a property $E$ is a liveness property iff $\cl(E)=E$.
+  \Question 
+The property is a liveness property, because the set of good prefixes $\pref(P_5)$ is equal to $(\twoap)\star$, because  every finite word can be extended into a infinite word in which zero is exceeded only finitely many times. This property isn't a safety property, because $\{x=0\}^\omega\in\cl(P_5)-P_5$ and thus $\cl(P_5)\neq P_5$.
   \Question%
   \Question%
   \Question%
