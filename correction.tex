@@ -127,8 +127,8 @@ We thus have that every trace of $\tss_1$ is a trace of $\tss_2$, which means $\
 
 \section*{Exercise 3}
 
-\def\badp#1{\mathit{BadPref}(#1)}
-\def\pref#1{\mathit{Pref}(#1)}
+\def\badp{\mathit{BadPref}}
+\def\pref{\mathit{Pref}}
 \def\twoap{2^{AP}}
 \def\star{^*}
 
@@ -150,8 +150,10 @@ Determine which of the provided LT properties are
 safety properties and which are liveness properties. 
 
 \begin{Answer}[number=3]
-  \Question Every prefix is a bad prefix for the propery \textit{false}, because the property is always false. Thus, $\badp{false} = (\twoap)\star$ and $\pref{false} = \emptyset$. As $\pref{false}\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into an accepted word : any prefix of the infite word is such a prefix.
-  \Question%
+  \Question 
+Every prefix is a bad prefix for the propery \textit{false}, because the property is always false. Thus, $\badp(false) = (\twoap)\star$ and $\pref{false} = \emptyset$. As $\pref(false)\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into an accepted word : any prefix of the infite word is such a prefix.
+  \Question
+For such a property, one can define a set of bad prefixes : $\badp = \{x > 0\}(\twoap)\star$. Any infinite word that make the property false has such a bad prefix. Thus, the property is a safety property. However, since $\badp\neq\emptyset$, there exists some finite words that cannot be extended into an accepted infinite word. Thus, the property is not a liveness property.
   \Question%
   \Question%
   \Question%
