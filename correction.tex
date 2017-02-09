@@ -62,7 +62,7 @@ Give the traces on the set of atomic propositions $\{a,b\}$ of the following tra
 
 \begin{Answer}
 
-Let $\ts$ be the transition system. There is only possibles executions in $\ts$, with distinct traces.% I don't understand this sentence
+Let $\ts$ be the transition system. There is only 2 possibles executions in $\ts$, with distinct traces.% I don't understand this sentence -> a 2 was missing
 We have:
 $$\traces(\ts)=\seta{(\seta\setab)}^\omega\ +\ \seta\emptyset{(\setab\seta)}^\omega$$
 \end{Answer}
@@ -100,6 +100,7 @@ Note that with this construction, we do not have the equivalence of trace-equiva
 It is not necessary in our context, as we only want the first implication. If this refinement is nevertheless wanted, it can be obtained by defining a new proposition true only in state $\Omega$. % I don't understand. Does this mean that the reverse transformation does not preserve trace-equivalence?
 % If this is the case, there is two problems: 1/ it is not clear that we can define such a reverse transformation
 % 2/ even if this is the case, it is not obvious that it would not preserve trace-equivalence. need an example.
+% An example could be as follow: consider the ts 1 -> 2 -> 3 with L(1) = L(1) = {A} and L(3) = \emptyset, and the same with a loop on 3. The resulting non halting ts would both have a language of trace of {A}{A}(\emptyset)^\omega. Yet the trace languages of the 2 original ts are different.
 
 \Question%
 We introduce a lemma that will be helpful in order to prove the theorem.
@@ -179,24 +180,34 @@ Recall the definition of safety property and liveness property:
 	\item $E$ is called a \emph{liveness property} if each finite word can be extended to an infinite word in $E$, ie.\ $\pref(E) = {(\twoap)}^+$.
 \end{itemize}
   \Question%
+  $P_1 = \emptyset$\\
 Every prefix is a bad prefix for the property \textit{false}, because the property is always false. Thus, $\badp(P_1) = (\twoap)\star$ and $\pref{P_1} = \emptyset$. As $\pref(P_1)\neq (\twoap)\star$, the property is not a liveness property. However, the property is a safety property because for each infinite word, there exists a finite prefix that cannot be extended into a word that satisfies the property: any prefix of the infinite word is such a prefix. %this sentence is too long. Maybe we could recall the definition of safety property at the beginning of the exercise.
 % Moreover, it is for each infinite word that doesn't satisfy the property. here is it the same, but mb it could be made clearer.
+% Why not replace the last sentence by $\badp(P_1) = (\twoap)\star = (\twoap)\star\\ \emptyset, which is the definition of safety property?$
   \Question%
+  $P_2 = \{x = 0\}(\twoap)^\omega$\\
 For such a property, one can define a set of bad prefixes: $\badp(P_2) = \{x > 0\}(\twoap)\star$. Any infinite word that make the property false has such a bad prefix. Thus, the property is a safety property. However, since $\badp(P_2)\neq\emptyset$, there exists some finite words that cannot be extended into an infinite word that satisfies the property. Thus, the property is not a liveness property.
   \Question%
+  $P_3 =  \{x > 0\}(\twoap)^\omega$\\
 This property is also a safety property, with $\badp(P_3) = \{x=0\}(\twoap)\star$. It isn't a liveness property because the set of bad prefixes isn't empty.
   \Question%
+  $P_4 = \{x = 0\}(\twoap)\star\{x > 0\}(\twoap)^\omega$\\
 This property isn't a liveness property: for instance, the finite prefix $\{x>0\}$ cannot be extended to an infinite word that satisfies the property.
 This property isn't a safety property either. Indeed, we have that the word ${\{x=0\}}^\omega\in\cl(P_4)$ but ${\{x=0\}}^\omega\not\in P_4$. And we know that a property $E$ is a liveness property iff $\cl(E)=E$.
   \Question%
+  $P_5 = ((\twoap)\star\{x > 0\})\star(\twoap)^\omega$\\  
 The property is a liveness property, because the set of good prefixes $\pref(P_5)$ is equal to $(\twoap)\star$, because  every finite word can be extended into a infinite word in which zero is exceeded only finitely many times. This property isn't a safety property, because ${\{x=0\}}^\omega\in\cl(P_5)-P_5$ and thus $\cl(P_5)\neq P_5$.
+% isn't it x>0 ? 
   \Question%
+  $P_6 = ((\twoap)\star\{x > 0\})^\omega$\\
 $P_6$ is a liveness property. Indeed, let $\sigma$ be a finite word. One can extend $\sigma$ such that the result exceeds zero infinitely often. For instance, consider the infinite word ${\sigma(\{x>0\})}^\omega$.
-However, $P_6$ isn't a safety property: ${\{x=0\}}^\omega\in\cl(P_6)-P_6$ and thus $\cl(P_6)\neq P_8$.
+However, $P_6$ isn't a safety property: ${\{x=0\}}^\omega\in\cl(P_6)-P_6$ and thus $\cl(P_6)\neq P_6$.
   \Question%
+  $P_7 = (\{x = 0\}\{x > 0\})^\omega + (\{x > 0\}\{x = 0\})^\omega$\\
 $P_7$ is a safety property because we can characterize it with its set of bad prefixes: $\badp(P_7)=(\twoap)\star\ (\{x=0\}\{x=0\} + \{x>0\}\{x>0\}) (\twoap)\star$. Indeed, every infinite word that does not satisfy the property contains either $\{x=0\}\{x=0\}$ or $\{x>0\}\{x>0\}$.
 However, $P_7$ is not a liveness property, $\{x=0\}\{x=0\}$ is a word that cannot be extended to an infinite word that satisfies $P_7$.
   \Question%
+  $P_8 = (\twoap)^\omega$\\
 $P_8$ is both a safety and liveness property. We can describe its bad prefixes: $\badp(P_8)=\emptyset$. And since this set is empty, every finite prefix can be extended to a infinite word of $P_8$, since every infinite word is a word of $P_8$.
 \end{Answer}
 
