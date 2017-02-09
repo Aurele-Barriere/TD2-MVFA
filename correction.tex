@@ -222,7 +222,7 @@ Let $P$ and $P'$ be two LT properties. Prove or disprove: $Pref(P) = Pref(P')$ i
 
 \begin{Answer}
 
-  Let $P$ and $P'$ be two LT properties. The following theorem is true:
+  Let $P$ and $P'$ be two LT properties. Let us show that the following theorem is true:
   \begin{theorem}
     $\Pref(P) = \Pref(P')$ if and only if $\Cl(P) = \Cl(P')$
   \end{theorem}
@@ -279,14 +279,14 @@ Let us show a counterexample proving that the intersection of two liveness prope
 Using the two liveness properties defined in exercise 3: $x$ exceeds zero only finitely many times; $x$ exceeds zero infinitely often.
 The intersection of these two properties is $false$ which is not a liveness property (cf.\ exercise 3 again).
 \Question%
-Given $P$ and $P'$ two safety properties, we prove that $P\cup P'$ is a safety property, by reasoning on the bad prefixes. We show by double inclusion that $ not( P\cup P') = BadPref( P\cup P')$
+Given $P$ and $P'$ two safety properties, we prove that $P\cup P'$ is a safety property, by reasoning on the bad prefixes. We show by double inclusion that $ not( P\cup P') = BadPref( P\cup P')$ % i don't get it
 \begin{itemize}
 \item $\alpha \notin P\cup P'$ implies $\alpha \notin P$ or $\alpha \notin P'$.
-For the simplicity of the notations, we will assume $\alpha \notin P$ is verified. Then $\alpha \in BadPref(P)$, i.e. $Pref(\alpha) \subseteq Pref(P) subseteq Pref(P \cup P')$ and $\alpha \in BadPref(P \cup P')$.
-\item $alpha \in BadPref(P\cup P')$ means $Pref(\alpha) \subseteq Pref(P \cup P')$ which implies $alpha \in BadPref(P)$ (or the same thing for $P'$, an the proof is symmetric). Then, by def $\alpha \in P \subseteq (P \cup P')$.
+For the simplicity of the notations, we will assume $\alpha \notin P$ is verified. Then $\alpha \in BadPref(P)$, i.e. $Pref(\alpha) \subseteq Pref(P) \subseteq Pref(P \cup P')$ and $\alpha \in BadPref(P \cup P')$.
+\item $\alpha \in BadPref(P\cup P')$ means $Pref(\alpha) \subseteq Pref(P \cup P')$ which implies $alpha \in BadPref(P)$ (or the same thing for $P'$, an the proof is symmetric). Then, by def $\alpha \in P \subseteq (P \cup P')$.
 \end{itemize}
 \Question%
-Given $P$ and $P'$ two safety properties, we prove that $P\cap P'$ is a safety property, by showing the equality of this language with its cloture.
+Given $P$ and $P'$ two safety properties, we prove that $P\cap P'$ is a safety property, by showing the equality of this language with its closure.
 As for any property $p$, $p \subseteq \Cl(p)$, we will prove the other inclusion. Lets consider $\alpha \in \Cl(P\cap P')$. By definition, $Pref(\alpha) \subseteq Pref(P\cap P') \subseteq Pref(P) \cap Pref(P')$\footnotemark[2].
 Specifically, $Pref(\alpha) \subseteq Pref(P)$, hence $\alpha \in \Cl(P) = P$. The same proof leads to $\alpha \in P'$. Hence $\alpha \in P\cap P'$.
 
