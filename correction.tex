@@ -279,12 +279,15 @@ Let us show a counterexample proving that the intersection of two liveness prope
 Using the two liveness properties defined in exercise 3: $x$ exceeds zero only finitely many times; $x$ exceeds zero infinitely often.
 The intersection of these two properties is $false$ which is not a liveness property (cf.\ exercise 3 again).
 \Question%
-Given $P$ and $P'$ two safety properties, we prove that $P\cup P'$ is a safety property, by reasoning on the bad prefixes. We show by double inclusion that $ (\twoap)^\omega \setminus (P\cup P')  = BadPref( P\cup P')$.
-\begin{itemize}
-\item $\alpha \notin P\cup P'$ implies $\alpha \notin P$ or $\alpha \notin P'$.
-For the simplicity of the notations, we will assume $\alpha \notin P$ is verified. Then $\alpha \in BadPref(P)$, i.e. $Pref(\alpha) \subseteq Pref(P) \subseteq Pref(P \cup P')$ and $\alpha \in BadPref(P \cup P')$.
-\item $\alpha \in BadPref(P\cup P')$ means $Pref(\alpha) \subseteq Pref(P \cup P')$ which implies $alpha \in BadPref(P)$ (or the same thing for $P'$, an the proof is symmetric). Then, by definition $\alpha \in P \subseteq (P \cup P')$.
-\end{itemize}
+Given $P$ and $P'$ two safety properties, we prove that $P\cup P'$ is a safety property, by using the definition of a safety property. Let $\sigma \in (\twoap)^\omega \setminus (P\cup P')$. Especially, $\sigma \in (\twoap)^\omega \setminus P$ and $\sigma \in (\twoap)^\omega \setminus P')$. Hence $\sigma \notin P$ and $\sigma \notin P'$, and as these are safety properties, no prefix of $\sigma$ can be completed in words of $P$ or $P'$. Thus no prefix of $\sigma$ can be completed in a word of $P \cup P'$ and $P \cup P'$ is a safety property. 
+Formally: $$P\cap(\bigcup_{\gamma\quad prefix~of~\sigma} \{\alpha ~|~ \gamma \text{ can be completed in }\alpha \})=\emptyset$$ and $$P'\cap(\bigcup_{\gamma\quad prefix~of~\sigma} \{\alpha ~|~ \gamma \text{ can be completed in }\alpha \})=\emptyset$$ so $$(P\cup P')\cap(\bigcup_{\gamma\quad prefix~of~\sigma} \{\alpha ~|~ \gamma \text{ can be completed in }\alpha \})=\emptyset$$. By definition, it comes that $P\cup P'$ is a safety property.
+
+% Given $P$ and $P'$ two safety properties, we prove that $P\cup P'$ is a safety property, by reasoning on the bad prefixes. We show by double inclusion that $ (\twoap)^\omega \setminus (P\cup P')  = BadPref( P\cup P')$.
+% \begin{itemize}
+% \item $\alpha \notin P\cup P'$ implies $\alpha \notin P$ or $\alpha \notin P'$.
+% For the simplicity of the notations, we will assume $\alpha \notin P$ is verified. Then $\alpha \in BadPref(P)$, i.e. $Pref(\alpha) \subseteq Pref(P) \subseteq Pref(P \cup P')$ and $\alpha \in BadPref(P \cup P')$.
+% \item $\alpha \in BadPref(P\cup P')$ means $Pref(\alpha) \subseteq Pref(P \cup P')$ which implies $alpha \in BadPref(P)$ (or the same thing for $P'$, an the proof is symmetric). Then, by definition $\alpha \in P \subseteq (P \cup P')$.
+% \end{itemize}
 \Question%
 Given $P$ and $P'$ two safety properties, we prove that $P\cap P'$ is a safety property, by showing the equality of this language with its closure.
 As for any property $p$, $p \subseteq \Cl(p)$, we will prove the other inclusion. Lets consider $\alpha \in \Cl(P\cap P')$. By definition, $Pref(\alpha) \subseteq Pref(P\cap P') \subseteq Pref(P) \cap Pref(P')$ \footnotemark[2].
